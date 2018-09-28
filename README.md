@@ -18,7 +18,7 @@ Enable developer mode in chrome browser https://developer.chrome.com/extensions/
 ## Authors
 
 * **Por Yee** - *Initial work* - [poryee](https://github.com/poryee)
-* **Yong Ming** - *Development* - [Yong Ming](-)
+* **Yong Ming** - *Development* - [Yong Ming](https://github.com/ymgitproject)
 
 
 ## Acknowledgments
