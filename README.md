@@ -26,3 +26,4 @@ Enable developer mode in chrome browser https://developer.chrome.com/extensions/
 * Tagui Ken soh https://github.com/kelaberetiv/TagUI/tree/master/src/chrome 
 * Inspiration from various RPA tools to mitigate or simplify repetitive task
 * End state to sync back output as vision base selenium automation testing
+* Courtesy of resurrectio for the contentscript https://github.com/ebrehault/resurrectio 
