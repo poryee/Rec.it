@@ -1,0 +1,26 @@
+{
+  "name": "Rec.it",
+  "version": "1.0.0",
+  "description": "Record user interactions and crop web elements to facilitate selenium automation",
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "images/Logo512.png"
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "MacCtrl+Shift+F"
+      },
+      "description": "Opens popup.html"
+    }
+  },
+  "icons": {
+      "48": "images/Logo48.png",
+      "72": "images/Logo72.png",
+      "96": "images/Logo96.png",
+      "144": "images/Logo144.png"
+    },
+ 
+  "manifest_version": 2
+}
