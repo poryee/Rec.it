@@ -1,6 +1,7 @@
 {
   "name": "Rec.it",
   "version": "1.0.0",
+  "manifest_version": 2,
   "description": "Record user interactions and crop web elements to facilitate selenium automation",
   "browser_action": {
     "default_popup": "popup.html",
@@ -15,12 +16,26 @@
       "description": "Opens popup.html"
     }
   },
+  "background": {
+    "scripts": ["background.js"] // manage task or state for long script (lifecycle within the extension itself)
+  },
+  "permissions": [
+     "tabs",
+     "background",
+	 "*://*/*",
+     "http://*/*",
+	 "https://*/*"
+  ],
+  "content_scripts": [{
+        "matches": ["*://*/*", "http://*/*", "https://*/*"], // run for http & https pages
+        "js": ["events.js"]
+  }],
   "icons": {
       "48": "images/Logo48.png",
       "72": "images/Logo72.png",
       "96": "images/Logo96.png",
       "144": "images/Logo144.png"
-    },
- 
-  "manifest_version": 2
+	},
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  
 }
