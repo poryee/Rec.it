@@ -12,6 +12,10 @@ RecProxy.prototype.start = function(url) {
 	});
 }
 
+RecProxy.prototype.pause = function() {
+    chrome.runtime.sendMessage({action: "pause"});
+}
+
 RecProxy.prototype.stop = function() {
     chrome.runtime.sendMessage({action: "stop"});
 }
@@ -59,17 +63,34 @@ RecUI.prototype.start = function() {
 }
 
 RecUI.prototype.set_started = function() {
-  var e = document.getElementById("stop");
-  e.style.display = '';
-  e.onclick = ui.stop;
-  e = document.getElementById("start");
-  e.style.display = 'none';
-  e = document.getElementById("export");
-  e.style.display = 'none';
+	// show pause
+	var e = document.getElementById("pause");
+	e.style.display = '';
+	e.onclick = ui.pause;
+	e = document.getElementById("start");
+	e.style.display = 'none';
+	e = document.getElementById("export");
+	e.style.display = 'none';
+}
+
+RecUI.prototype.pause = function() {
+	ui.set_pause();
+	ui.recorder.pause();
+	return false;
+}
+
+RecUI.prototype.set_pause = function() 
+	// hide pause
+	var e = document.getElementById("pause");
+	e.style.display = 'none';
+	// show start
+	e = document.getElementById("start");
+	e.style.display = '';
+	
 }
 
 RecUI.prototype.stop = function() {
-  ui.set_stopped();
+	ui.set_stopped();
 	ui.recorder.stop();
 	return false;
 }
