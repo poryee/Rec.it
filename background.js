@@ -30,6 +30,16 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   	    });
   	}
   }
+  if (request.action == "pause") {
+  	if(active) {
+  	    active = false;
+		console.log("You have paused recording of your test sequence.");
+		chrome.tabs.sendMessage(tab_id, {action: "pause"});
+		sendResponse({'pause': true, 'empty': empty});
+  	    
+  	}
+  }
+  
   if (request.action == "stop") {
     active = false;
     chrome.tabs.sendMessage(tab_id, {action: "stop"});

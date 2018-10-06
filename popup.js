@@ -13,7 +13,13 @@ RecProxy.prototype.start = function(url) {
 }
 
 RecProxy.prototype.pause = function() {
-    chrome.runtime.sendMessage({action: "pause"});
+    chrome.runtime.sendMessage({action: "pause"}, function(response){
+		if(response.pause){
+			if(!response.empty){
+				return true;
+			}
+		}
+	});
 }
 
 RecProxy.prototype.stop = function() {
@@ -29,92 +35,100 @@ RecProxy.prototype.open = function(url, callback) {
 //-----------------------------------------------
 // Rec.it
 // prototype attribute allow us to append new attribute function into constructor
+// rewrite in ES6
 //----------------------------------------------
 
-function RecUI() {
-	this.recorder = new RecProxy();
-	chrome.runtime.sendMessage({action: "get_status"}, function(response) {
-	    if (response.active) {
-	    	ui.set_started();
-	    } else {
-	    	if (!response.empty) {
-	            ui.set_stopped();
-	        }
-	        chrome.tabs.getSelected(null, function(tab) {
-                  document.forms[0].elements["url"].value = tab.url;
-            });
-	    }
-	});
-  
-}
-
-RecUI.prototype.start = function() {
-    var url = document.forms[0].elements["url"].value;
-    if (url == "") {
-        return false;
-    }
-    if ( (url.indexOf("http://") == -1) && (url.indexOf("https://")) ) {
-        url = "http://" + url;
-    }
-    ui.set_started()
-    ui.recorder.start(url);
-  
-    return false;
-}
-
-RecUI.prototype.set_started = function() {
-	// show pause
-	var e = document.getElementById("pause");
-	e.style.display = '';
-	e.onclick = ui.pause;
-	e = document.getElementById("start");
-	e.style.display = 'none';
-	e = document.getElementById("export");
-	e.style.display = 'none';
-}
-
-RecUI.prototype.pause = function() {
-	ui.set_pause();
-	ui.recorder.pause();
-	return false;
-}
-
-RecUI.prototype.set_pause = function() 
-	// hide pause
-	var e = document.getElementById("pause");
-	e.style.display = 'none';
-	// show start
-	e = document.getElementById("start");
-	e.style.display = '';
+class RecIT{
+		
+	constructor(){
+		// listen message
+		
+		this.recorder = new RecProxy();
+		chrome.runtime.sendMessage({action: "get_status"}, function(response) {
+			if (response.active) {
+				
+				var e = document.getElementById("pause");
+				e.style.display = '';
+				e = document.getElementById("start");
+				e.style.display = 'none';
+				e = document.getElementById("export");
+				e.style.display = 'none';
+						
+			} else {
+				if (!response.empty) {
+					// if not active and not empty
+					var e = document.getElementById("stop");
+					e.style.display = 'none';
+					e = document.getElementById("start");
+					e.style.display = '';
+					e = document.getElementById("export");
+					e.style.display = '';
+				}
+					chrome.tabs.getSelected(null, function(tab) {
+				});
+			}
+		});
+		
+	}
 	
+	start(){
+	
+		// set css toggle start and pause
+		var e = document.getElementById("pause");
+		e.style.display = '';
+		e = document.getElementById("start");
+		e.style.display = 'none';
+		// pass message
+		this.recorder.start();
+	
+	}
+	
+	pause(){
+		// set css toggle pause and start
+		var e = document.getElementById("pause");
+		e.style.display = 'none';
+		// show start
+		e = document.getElementById("start");
+		e.style.display = '';
+
+		// pass message at the same time if already has recording show stop option
+		if(this.recorder.pause()){
+			e = document.getElementById("stop");
+			e.style.display = '';
+		};
+	}
+
+	
+	
+	
+	stop(){
+		// set css on stop you can choose to export or start again
+		var e = document.getElementById("stop");
+		e.style.display = 'none';
+		e = document.getElementById("start");
+		e.style.display = '';
+		e = document.getElementById("export");
+		e.style.display = '';
+		// pass message
+		this.recorder.stop();
+	}
+
+
+	export(){
+		chrome.tabs.create({url: "./recit.html"});
+	}
 }
 
-RecUI.prototype.stop = function() {
-	ui.set_stopped();
-	ui.recorder.stop();
-	return false;
-}
 
-RecUI.prototype.set_stopped = function() {
-	var e = document.getElementById("stop");
-	e.style.display = 'none';
-	e = document.getElementById("start");
-	e.style.display = '';
-	e = document.getElementById("export");
-	e.style.display = '';
-}
-
-RecUI.prototype.export = function(options) {
-  chrome.tabs.create({url: "./recit.html"});
-}
 
 var ui;
 
 // bind events to ui elements
 window.onload = function(){
-    document.querySelector('#start').onclick=function() {ui.start(); return false;};
+    ui = new RecIT();
+	document.querySelector('#start').onclick=function() {ui.start(); return false;};
 	document.querySelector('#pause').onclick=function() {ui.pause(); return false;};
     document.querySelector('#stop').onclick=function() {ui.stop(); return false;};
     document.querySelector('#export').onclick=function() {ui.export(); return false;};
-    ui = new RecUI();
+    
 }
