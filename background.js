@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     sendResponse({});
   }
   if (request.action == "get_status") {
-    sendResponse({'active': active, 'empty': empty});
+    sendResponse({'active': active, '	': empty});
   }
   if (request.action == "start") {
   	if(!active) {

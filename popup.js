@@ -15,6 +15,7 @@ RecProxy.prototype.start = function(url) {
 RecProxy.prototype.pause = function() {
     chrome.runtime.sendMessage({action: "pause"}, function(response){
 		if(response.pause){
+			// if there is item append in list
 			if(!response.empty){
 				return true;
 			}
@@ -46,7 +47,7 @@ class RecIT{
 		this.recorder = new RecProxy();
 		chrome.runtime.sendMessage({action: "get_status"}, function(response) {
 			if (response.active) {
-				
+				// if active show pause only
 				var e = document.getElementById("pause");
 				e.style.display = '';
 				e = document.getElementById("start");
@@ -57,12 +58,13 @@ class RecIT{
 			} else {
 				if (!response.empty) {
 					// if not active and not empty
+					// show stop and start
 					var e = document.getElementById("stop");
-					e.style.display = 'none';
+					e.style.display = '';
 					e = document.getElementById("start");
 					e.style.display = '';
 					e = document.getElementById("export");
-					e.style.display = '';
+					e.style.display = 'none';
 				}
 					chrome.tabs.getSelected(null, function(tab) {
 				});
