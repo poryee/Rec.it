@@ -56,6 +56,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 		case "stop":
 			stop();
 			break;
+		case "get_status":
+			sendResponse({"active": active, "empty": empty});
+			break;
 	}    
 });
 

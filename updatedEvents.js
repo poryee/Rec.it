@@ -51,7 +51,7 @@ eventStart = (() => {
 
 
 eventPause = (() => {
-	alert("pause");
+	//alert("pause");
 	window.removeEventListener("click", eventListener);
 	
 		

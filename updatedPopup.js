@@ -12,7 +12,7 @@ class RecIT{
 		
 	constructor(){
 		
-		chrome.runtime.sendMessage({action: "get_status"}, function(response) {
+		chrome.runtime.sendMessage({popupmsg: "get_status"}, function(response) {
 			if (response.active) {
 				// if active show pause only
 				var e = document.getElementById("pause");
