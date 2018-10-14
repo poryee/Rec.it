@@ -4,6 +4,8 @@
 function RecProxy() {
     this.active = null;
 }
+});
+
 
 // if start send message to background.js to save state start
 RecProxy.prototype.start = function(url) {

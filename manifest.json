@@ -17,7 +17,7 @@
     }
   },
   "background": {
-    "scripts": ["background.js"] // manage task or state for long script (lifecycle within the extension itself)
+    "scripts": ["updatedBackground.js"] // manage task or state for long script (lifecycle within the extension itself)
   },
   "permissions": [
      "tabs",
@@ -28,7 +28,7 @@
   ],
   "content_scripts": [{
         "matches": ["*://*/*", "http://*/*", "https://*/*"], // run for http & https pages
-        "js": ["events.js"]
+        "js": ["updatedEvents.js"]
   }],
   "icons": {
       "48": "images/Logo48.png",
