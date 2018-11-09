@@ -46,19 +46,34 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			// respond with status
 			sendResponse({"active": active, "empty": empty});
 			break;
-			
+
 		case "pause":
 			pause();
 			// respond with status
 			sendResponse({"active": active, "empty": empty});
 			break;
-				
+
 		case "stop":
 			stop();
 			break;
 		case "get_status":
 			sendResponse({"active": active, "empty": empty});
 			break;
-	}    
+	}
 });
 
+
+// temp listener from updatedEvent js
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    switch (request.action){
+
+		case "append":
+		    empty = false;
+		    testcase_items.push(request.obj);
+		    console.log(testcase_items);
+		    var x = testcase_items[testcase_items.length-1];
+		    console.log(x);
+            sendResponse({});
+        	break;
+	}
+});
